@@ -41,6 +41,7 @@ signal game_error(what)
 func _player_connected(id : int):
 	# Registration of a client beings here, tell the connected player that we are here.
 	rpc_id(id, "register_player", player_name)
+	SyncManager.add_peer(id)
 
 
 # Callback from SceneTree.
@@ -51,6 +52,7 @@ func _player_disconnected(id : int):
 			end_game()
 	else: # Game is not in progress.
 		# Unregister this player.
+		SyncManager.remove_peer(id)
 		unregister_player(id)
 
 
@@ -95,8 +97,6 @@ remotesync func leave_game():
 
 
 remote func pre_start_game(spawn_points : Dictionary):
-	# Change scene.
-# warning-ignore:unsafe_method_access
 	var world = world_scene.instance()
 	get_tree().get_root().add_child(world)
 
