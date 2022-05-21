@@ -80,17 +80,16 @@ collision_mask = 4
 shape = SubResource( 8 )
 
 [node name="TickRate" type="Timer" parent="."]
-wait_time = 0.03
+wait_time = 0.05
 autostart = true
 
 [node name="Tween" type="Tween" parent="."]
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="new_target" from="SeekZone" to="." method="_on_SeekZone_new_target"]
 [connection signal="timeout" from="TickRate" to="." method="_on_TickRate_timeout"]
 
 [editable path="Hitbox"]
-
 [editable path="Hurtbox"]
-
 [editable path="SeekZone"]

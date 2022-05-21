@@ -13,9 +13,7 @@ extents = Vector2( 8, 8 )
 
 [sub_resource type="RectangleShape2D" id=3]
 
-[node name="HealthPickup" type="RigidBody2D" groups=[
-"Pickups",
-]]
+[node name="HealthPickup" type="RigidBody2D" groups=["Pickups"]]
 gravity_scale = 0.0
 script = ExtResource( 3 )
 
@@ -43,12 +41,12 @@ shape = SubResource( 3 )
 max_health = 3
 
 [node name="NetworkTickRate" type="Timer" parent="."]
-wait_time = 0.03
+wait_time = 0.05
 autostart = true
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="timeout" from="NetworkTickRate" to="." method="_on_Network_Tick_Rate_timeout"]
 
 [editable path="Hitbox"]
-
 [editable path="Hurtbox"]
