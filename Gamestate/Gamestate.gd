@@ -130,21 +130,21 @@ remote func pre_start_game(spawn_points : Dictionary):
 		var banner_ui = world.get_node("HUD/CenterBanner/Center/BannerUI")
 		player.connect("player_death", banner_ui, "_on_player_death")
 
-	var _error_on_update_level_begin = world.get_node("LevelManager").connect(
-		"update_level_begin",
-		 world.get_node("HUD/CenterBanner/Center/BannerUI"),
-		 "_on_update_level_begin"
-		)
-	var _error_on_update_level_cleared = world.get_node("LevelManager").connect(
-		"update_level_cleared",
-		 world.get_node("HUD/CenterBanner/Center/BannerUI"),
-		 "_on_update_level_cleared"
-		)
-	var _error_on_update_score = world.get_node("ObjectiveManager").connect(
-		"update_score",
-		 world.get_node("HUD/Notch/ScoreUI"),
-		 "_on_Objective_Manager_update_score"
-	)
+#	var _error_on_update_level_begin = world.get_node("LevelManager").connect(
+#		"update_level_begin",
+#		 world.get_node("HUD/CenterBanner/Center/BannerUI"),
+#		 "_on_update_level_begin"
+#		)
+#	var _error_on_update_level_cleared = world.get_node("LevelManager").connect(
+#		"update_level_cleared",
+#		 world.get_node("HUD/CenterBanner/Center/BannerUI"),
+#		 "_on_update_level_cleared"
+#		)
+#	var _error_on_update_score = world.get_node("ObjectiveManager").connect(
+#		"update_score",
+#		 world.get_node("HUD/Notch/ScoreUI"),
+#		 "_on_Objective_Manager_update_score"
+#	)
 
 
 	if not get_tree().is_network_server():

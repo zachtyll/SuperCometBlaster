@@ -43,40 +43,7 @@ master func call_thrust(direction : int) -> void:
 	thrust_dir = direction
 
 
-#func puppet_rotation_set(new_puppet_rot) -> void:
-#	if puppet_rotation == new_puppet_rot:
-#		return
-#	puppet_rotation = new_puppet_rot
-#	tween.interpolate_property(
-#		self, "rotation", rotation, puppet_rotation, 0.001
-#		)
-#	tween.start()
-#
-#
-## Tweens to the newly set global position from the old position.
-#func puppet_position_set(new_puppet_pos) -> void:
-#	if puppet_position == new_puppet_pos:
-#		return
-#	puppet_position = new_puppet_pos
-#	tween.interpolate_property(
-#		self, "global_position", global_position, puppet_position, 0.001
-#		)
-#	tween.start()
-
-#
-#func _get_local_input() -> Dictionary:
-#
-#	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-#
-#	var input := {}
-#	if not input_vector == Vector2.ZERO:
-#		input["input_vector"] = input_vector
-#
-#	return input
-
-
-
-func _network_process(input: Dictionary) -> void:
+func _network_process(_input: Dictionary) -> void:
 	
 	rotation += rotation_dir / rotation_speed
 
