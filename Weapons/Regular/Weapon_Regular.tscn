@@ -23,4 +23,5 @@ rotation = -1.5708
 [node name="Sprite" type="Sprite" parent="CastPoint"]
 scale = Vector2( 0.125, 0.125 )
 texture = ExtResource( 4 )
+
 [connection signal="timeout" from="FireRate" to="." method="_on_Fire_Rate_timeout"]

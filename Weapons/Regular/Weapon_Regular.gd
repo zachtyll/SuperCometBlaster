@@ -23,11 +23,12 @@ func pre_spawn_projectile() -> void:
 	projectile_data = {
 		"source" : self.owner.owner.name,
 		"sync_name" : "Projectile_%s" % [str(Gamestate.networked_object_name_index)],
-		"position" : $CastPoint.position,
+		"position" : $CastPoint.global_position,
 		"rotation" : owner.rotation,
 		"velocity" : owner.velocity,
 		"impulse" : Vector2(0, -200),
 	}
+	
 	data_array.append(projectile_data)
 	rpc("remote_spawn_projectile", projectile_data)
 
