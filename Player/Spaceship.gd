@@ -7,8 +7,8 @@ const ACCELERATION := 200
 export (float) var rotation_speed := 200.0
 export (float) var engine_thrust := 100.0
 
-puppet var puppet_position setget puppet_position_set
-puppet var puppet_rotation setget puppet_rotation_set
+#puppet var puppet_position setget puppet_position_set
+#puppet var puppet_rotation setget puppet_rotation_set
 
 var thrust := Vector2.ZERO
 var rotation_dir := 0 setget set_rotation_dir
@@ -43,25 +43,25 @@ master func call_thrust(direction : int) -> void:
 	thrust_dir = direction
 
 
-func puppet_rotation_set(new_puppet_rot) -> void:
-	if puppet_rotation == new_puppet_rot:
-		return
-	puppet_rotation = new_puppet_rot
-	tween.interpolate_property(
-		self, "rotation", rotation, puppet_rotation, 0.001
-		)
-	tween.start()
-
-
-# Tweens to the newly set global position from the old position.
-func puppet_position_set(new_puppet_pos) -> void:
-	if puppet_position == new_puppet_pos:
-		return
-	puppet_position = new_puppet_pos
-	tween.interpolate_property(
-		self, "global_position", global_position, puppet_position, 0.001
-		)
-	tween.start()
+#func puppet_rotation_set(new_puppet_rot) -> void:
+#	if puppet_rotation == new_puppet_rot:
+#		return
+#	puppet_rotation = new_puppet_rot
+#	tween.interpolate_property(
+#		self, "rotation", rotation, puppet_rotation, 0.001
+#		)
+#	tween.start()
+#
+#
+## Tweens to the newly set global position from the old position.
+#func puppet_position_set(new_puppet_pos) -> void:
+#	if puppet_position == new_puppet_pos:
+#		return
+#	puppet_position = new_puppet_pos
+#	tween.interpolate_property(
+#		self, "global_position", global_position, puppet_position, 0.001
+#		)
+#	tween.start()
 
 
 func _network_process(input: Dictionary) -> void:
@@ -142,10 +142,10 @@ remotesync func take_damage(damage : int) -> void:
 #	Sets the global position of the network master
 #	to the puppet position in remotes via rset().
 #	Activates setter which begins tweening.
-func _on_Network_Tick_Rate_timeout() -> void:
-	if is_network_master() and is_instance_valid(self):
-		rset_unreliable("puppet_position", global_position)
-		rset_unreliable("puppet_rotation", rotation)
+#func _on_Network_Tick_Rate_timeout() -> void:
+#	if is_network_master() and is_instance_valid(self):
+#		rset_unreliable("puppet_position", global_position)
+#		rset_unreliable("puppet_rotation", rotation)
 
 
 func _on_PlayerStats_no_health() -> void:
@@ -171,7 +171,7 @@ remotesync func pawn_respawn() -> void:
 	self.show()
 
 
-func _ready() -> void:
-	if is_network_master() and is_instance_valid(self):
-		rset_unreliable("puppet_position", global_position)
-		rset_unreliable("puppet_rotation", rotation)
+#func _ready() -> void:
+#	if is_network_master() and is_instance_valid(self):
+#		rset_unreliable("puppet_position", global_position)
+#		rset_unreliable("puppet_rotation", rotation)

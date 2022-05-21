@@ -56,6 +56,7 @@ func _get_local_input() -> Dictionary:
 	
 	
 	$Spaceship.thrust_dir = input_vector.y
+	$Spaseship.rotation_dir = input_vector.x
 	
 	
 	return input
