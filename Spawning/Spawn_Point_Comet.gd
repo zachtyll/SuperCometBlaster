@@ -82,7 +82,7 @@ master func begin_new_level(level: int) -> void:
 # warning-ignore:narrowing_conversion
 		random_rotation = rng.randf_range(0, 360)
 		spawn_point.offset = rng.randi()
-		pre_spawn_comet(1)
+		pre_spawn_comet(0)
 
 
 func _ready():

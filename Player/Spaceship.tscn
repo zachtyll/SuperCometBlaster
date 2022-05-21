@@ -69,7 +69,6 @@ shape = SubResource( 3 )
 
 [node name="NetworkTickRate" type="Timer" parent="."]
 wait_time = 0.05
-autostart = true
 
 [node name="WeaponRegular" parent="." instance=ExtResource( 7 )]
 

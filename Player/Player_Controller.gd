@@ -1,27 +1,27 @@
 extends Node2D
 
-onready var pawn := $SpaceshipRigid
+onready var pawn := $Spaceship
 
 var player_name: String = "" setget set_player_name
 
 signal player_death
 
 # Input event handler.
-func _input(_ev: InputEvent) -> void:
-	if is_network_master() and is_instance_valid(pawn):
-		if Input.is_action_pressed("shoot"):
-			pawn.weapon.rpc_id(1, "fire_weapon")
-		var rotation_dir := Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-		var thrust_dir := -Input.get_action_strength("ui_up")
-		pawn.rpc_id(1, "call_steer", rotation_dir)
-		pawn.rpc_id(1, "call_thrust", thrust_dir)
-	else:
-		return
+#func _input(_ev: InputEvent) -> void:
+#	if is_network_master() and is_instance_valid(pawn):
+#		if Input.is_action_pressed("shoot"):
+#			pawn.weapon.rpc_id(1, "fire_weapon")
+#		var rotation_dir := Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+#		var thrust_dir := -Input.get_action_strength("ui_up")
+#		pawn.rpc_id(1, "call_steer", rotation_dir)
+#		pawn.rpc_id(1, "call_thrust", thrust_dir)
+#	else:
+#		return
 
 
 func set_player_name(new_name):
 	player_name = new_name
-	get_node("SpaceshipRigid/Label").set_text(player_name)
+	get_node("Spaceship/Label").set_text(player_name)
 
 
 func _on_update_level_begin(_value):
@@ -44,3 +44,19 @@ func _on_Spaceship_Rigid_pawn_death():
 	emit_signal("player_death", player_name)
 	set_process_input(false)
 	$Timer.start()
+
+
+func _get_local_input() -> Dictionary:
+
+	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	
+	var input := {}
+	if not input_vector == Vector2.ZERO:
+		input["input_vector"] = input_vector
+	
+	
+	$Spaceship.thrust_dir = input_vector.y
+	
+	
+	return input
+

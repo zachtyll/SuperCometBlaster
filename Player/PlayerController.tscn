@@ -5,15 +5,15 @@
 [ext_resource path="res://Player/Spaceship.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sprites/BlueBullet.png" type="Texture" id=5]
 
-[node name="PlayerController" type="Node2D"]
+[node name="PlayerController" type="Node2D" groups=["network_sync"]]
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="SpaceshipRigid" parent="." instance=ExtResource( 3 )]
+[node name="Spaceship" parent="." groups=["network_sync"] instance=ExtResource( 3 )]
 
-[node name="Label" type="Label" parent="SpaceshipRigid"]
+[node name="Label" type="Label" parent="Spaceship"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -24,9 +24,6 @@ margin_right = 20.0
 custom_fonts/font = ExtResource( 1 )
 text = "PLAYER 1"
 align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
@@ -34,5 +31,6 @@ one_shot = true
 
 [node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 5 )
-[connection signal="pawn_death" from="SpaceshipRigid" to="." method="_on_Spaceship_Rigid_pawn_death"]
+
+[connection signal="pawn_death" from="Spaceship" to="." method="_on_Spaceship_Rigid_pawn_death"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
