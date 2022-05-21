@@ -12,7 +12,7 @@ var synced_peers := 0
 var data_array := []
 var enemy_data
 
-onready var comet_regular := preload("res://Enemies/Comets/CometRegular.tscn")
+onready var comet_regular := preload("res://Enemies/Comets/Regular/CometRegular.tscn")
 onready var comet_infected := preload("res://Enemies/Comets/Infected/CometInfected.tscn")
 onready var comet_explosive := preload("res://Enemies/Comets/Explosion/CometExplosive.tscn")
 onready var comet_ice := preload("res://Enemies/Comets/Ice/CometIce.tscn")

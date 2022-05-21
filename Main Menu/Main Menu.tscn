@@ -35,11 +35,11 @@ margin_right = 640.0
 margin_bottom = 47.0
 size_flags_horizontal = 7
 size_flags_vertical = 6
-custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 1, 0, 0, 1 )
 custom_constants/shadow_offset_x = 0
 custom_constants/shadow_offset_y = 4
+custom_fonts/font = ExtResource( 3 )
 text = "Super Comet Blaster"
 align = 1
 
@@ -91,6 +91,7 @@ margin_top = 68.0
 margin_right = 112.0
 margin_bottom = 98.0
 text = "Quit"
+
 [connection signal="pressed" from="MarginContainer/CenterContainer/VBoxContainer/ButtonSingleplayer" to="." method="_on_Singleplayer_pressed"]
 [connection signal="pressed" from="MarginContainer/CenterContainer/VBoxContainer/ButtonMultiplayer" to="." method="_on_Multiplayer_pressed"]
 [connection signal="pressed" from="MarginContainer/CenterContainer/VBoxContainer/Quit" to="." method="_on_Quit_pressed"]

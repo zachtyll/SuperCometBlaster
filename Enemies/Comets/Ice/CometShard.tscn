@@ -3,7 +3,7 @@
 [ext_resource path="res://Sprites/CometSmall.png" type="Texture" id=1]
 [ext_resource path="res://Hitboxes and Hurtboxes/Hurtbox.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Stats.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Stats/Stats.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Enemies/Comets/Comet.gd" type="Script" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -15,10 +15,7 @@ radius = 4.0
 [sub_resource type="CircleShape2D" id=3]
 radius = 4.0
 
-[node name="CometShard" type="RigidBody2D" groups=[
-"Comet",
-"Enemy",
-]]
+[node name="CometShard" type="RigidBody2D" groups=["Comet", "Enemy"]]
 gravity_scale = 0.0
 script = ExtResource( 5 )
 score = 1
@@ -48,14 +45,14 @@ shape = SubResource( 3 )
 max_health = 1
 
 [node name="TickRate" type="Timer" parent="."]
-wait_time = 0.03
+wait_time = 0.05
 autostart = true
 
 [node name="Tween" type="Tween" parent="."]
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
 [connection signal="timeout" from="TickRate" to="." method="_on_Tick_Rate_timeout"]
 
 [editable path="Hitbox"]
-
 [editable path="Hurtbox"]
