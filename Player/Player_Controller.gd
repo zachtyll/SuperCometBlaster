@@ -46,18 +46,18 @@ func _on_Spaceship_Rigid_pawn_death():
 	$Timer.start()
 
 
-func _get_local_input() -> Dictionary:
+func _network_process(input: Dictionary) -> void:
+	$Spaceship.thrust_dir = input.get("input_vector", Vector2.ZERO).y
+	$Spaceship.rotation_dir = input.get("input_vector", Vector2.ZERO).x
 
-	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+
+func _get_local_input() -> Dictionary:
+	var rotation_dir := Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	var thrust_dir := -Input.get_action_strength("ui_up")
 	
 	var input := {}
-	if not input_vector == Vector2.ZERO:
-		input["input_vector"] = input_vector
-	
-	
-	$Spaceship.thrust_dir = input_vector.y
-	$Spaseship.rotation_dir = input_vector.x
-	
-	
+	if not rotation_dir == 0 or not thrust_dir == 0:
+		input["input_vector"] = Vector2(rotation_dir, thrust_dir)
+
 	return input
 

@@ -94,6 +94,7 @@ max_health = 10
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Shield"]
 material = ExtResource( 2 )
 frames = SubResource( 7 )
+frame = 1
 playing = true
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]

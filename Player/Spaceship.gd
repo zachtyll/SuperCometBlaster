@@ -63,10 +63,22 @@ master func call_thrust(direction : int) -> void:
 #		)
 #	tween.start()
 
+#
+#func _get_local_input() -> Dictionary:
+#
+#	var input_vector = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+#
+#	var input := {}
+#	if not input_vector == Vector2.ZERO:
+#		input["input_vector"] = input_vector
+#
+#	return input
+
+
 
 func _network_process(input: Dictionary) -> void:
 	
-	rotation += input.get("input_vector", Vector2.ZERO).x / rotation_speed
+	rotation += rotation_dir / rotation_speed
 
 
 	thrust = thrust_dir * Vector2(0, 0.1)
