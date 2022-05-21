@@ -1,0 +1,115 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://HUD/Score_UI.tscn" type="PackedScene" id=4]
+[ext_resource path="res://HUD/Banner_UI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://HUD/Health_UI.tscn" type="PackedScene" id=6]
+
+[node name="HUD" type="Control"]
+margin_right = 640.0
+margin_bottom = 360.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HealthUI" type="GridContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -296.0
+margin_top = -162.0
+margin_right = 296.0
+margin_bottom = 162.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/vseparation = 300
+custom_constants/hseparation = 500
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="0" parent="HealthUI" instance=ExtResource( 6 )]
+visible = false
+margin_right = 46.0
+margin_bottom = 12.0
+
+[node name="1" parent="HealthUI" instance=ExtResource( 6 )]
+visible = false
+margin_right = 46.0
+margin_bottom = 12.0
+
+[node name="2" parent="HealthUI" instance=ExtResource( 6 )]
+visible = false
+margin_right = 46.0
+margin_bottom = 12.0
+
+[node name="3" parent="HealthUI" instance=ExtResource( 6 )]
+visible = false
+margin_right = 46.0
+margin_bottom = 12.0
+
+[node name="Notch" type="MarginContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -20.0
+margin_right = 20.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScoreUI" parent="Notch" instance=ExtResource( 4 )]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="TopBar" type="MarginContainer" parent="."]
+anchor_right = 1.0
+margin_bottom = 52.0
+custom_constants/margin_right = 20
+custom_constants/margin_top = 20
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 20
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopBar" type="HBoxContainer" parent="TopBar"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 620.0
+margin_bottom = 32.0
+grow_horizontal = 0
+custom_constants/separation = 20
+
+[node name="CenterBanner" type="MarginContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -111.5
+margin_top = -7.0
+margin_right = 111.5
+margin_bottom = 7.0
+grow_horizontal = 0
+grow_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Center" type="CenterContainer" parent="CenterBanner"]
+margin_right = 223.0
+margin_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BannerUI" parent="CenterBanner/Center" instance=ExtResource( 5 )]
+margin_left = 111.0
+margin_top = 1.0
+margin_right = 111.0
+margin_bottom = 13.0

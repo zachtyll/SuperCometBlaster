@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Sprites/Background.png" type="Texture" id=1]
+[ext_resource path="res://HUD/HUD.tscn" type="PackedScene" id=3]
+[ext_resource path="res://HUD/HUD.gd" type="Script" id=4]
+[ext_resource path="res://Spawning/Spawn_Point_Player.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Objectives/Objective_Manager.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Spawning/Spawn_Point_Comet.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Spawning/Spawn_Point_Loot.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Objectives/Level_Manager.tscn" type="PackedScene" id=15]
+
+[node name="World" type="Node2D"]
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Background" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 640, 360 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ObjectiveManager" parent="." instance=ExtResource( 10 )]
+enemies = NodePath("../Enemies")
+
+[node name="LevelManager" parent="." instance=ExtResource( 15 )]
+
+[node name="SpawnPointComet" parent="LevelManager" instance=ExtResource( 12 )]
+enemies = NodePath("../../Enemies")
+objective_manager = NodePath("../../ObjectiveManager")
+
+[node name="SpawnPointLoot" parent="LevelManager" instance=ExtResource( 13 )]
+loot = NodePath("../../Loot")
+
+[node name="SpawnPoint" parent="LevelManager" instance=ExtResource( 5 )]
+position = Vector2( 320, 180 )
+players = NodePath("../../Players")
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="0" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 150, 120 )
+
+[node name="1" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 490, 120 )
+
+[node name="2" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 150, 240 )
+
+[node name="3" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 490, 240 )
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Loot" type="Node2D" parent="."]
+
+[node name="HUD" parent="." instance=ExtResource( 3 )]
+script = ExtResource( 4 )
+[connection signal="update_objective_completed" from="ObjectiveManager" to="LevelManager" method="_on_Objective_Manager_update_objective_completed"]
+
+[editable path="HUD"]

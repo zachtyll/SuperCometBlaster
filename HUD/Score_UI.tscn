@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://HUD/Score_UI.gd" type="Script" id=1]
+[ext_resource path="res://theme/pixel_type.tres" type="Theme" id=2]
+
+[node name="ScoreUI" type="MarginContainer"]
+margin_right = 640.0
+margin_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 640.0
+margin_bottom = 14.0
+
+[node name="Score" type="Label" parent="CenterContainer"]
+margin_left = 302.0
+margin_top = 1.0
+margin_right = 338.0
+margin_bottom = 13.0
+theme = ExtResource( 2 )
+text = "Score: 0"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Spawn_Point_Loot.gd" type="Script" id=1]
+
+[node name="SpawnPointLoot" type="Node2D"]
+script = ExtResource( 1 )
+health_chance = 0.5
+
+[node name="SpawnPoint" type="Position2D" parent="."]

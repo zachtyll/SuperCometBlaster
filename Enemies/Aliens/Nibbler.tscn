@@ -1,0 +1,96 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Hitboxes and Hurtboxes/Hurtbox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Stats.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sprites/Sprite Sheets/Nibbler.png" type="Texture" id=4]
+[ext_resource path="res://Nibbler.gd" type="Script" id=5]
+[ext_resource path="res://Enemies/Aliens/Seek_Zone.tscn" type="PackedScene" id=6]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 4 )
+region = Rect2( 16, 0, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 1 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 2 ), SubResource( 3 ) ],
+"loop": true,
+"name": "Chase",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 128.0
+
+[node name="Nibbler" type="KinematicBody2D"]
+script = ExtResource( 5 )
+score = 10
+rotation_speed = 300.0
+
+[node name="NibblerSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 4 )
+animation = "Chase"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 5 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 1 )]
+collision_mask = 28
+damage = 3
+knockback = 10
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource( 6 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 2 )]
+collision_layer = 1
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource( 7 )
+
+[node name="Stats" parent="." instance=ExtResource( 3 )]
+max_health = 1
+
+[node name="SeekZone" parent="." instance=ExtResource( 6 )]
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="SeekZone" index="0"]
+shape = SubResource( 8 )
+
+[node name="TickRate" type="Timer" parent="."]
+wait_time = 0.03
+autostart = true
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="no_health" from="Stats" to="." method="_on_Stats_no_health"]
+[connection signal="new_target" from="SeekZone" to="." method="_on_SeekZone_new_target"]
+[connection signal="timeout" from="TickRate" to="." method="_on_TickRate_timeout"]
+
+[editable path="Hitbox"]
+
+[editable path="Hurtbox"]
+
+[editable path="SeekZone"]

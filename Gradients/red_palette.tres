@@ -1,0 +1,6 @@
+[gd_resource type="GradientTexture" format=2]
+
+[resource]
+resource_local_to_scene = true
+resource_name = "red_palette"
+width = 16

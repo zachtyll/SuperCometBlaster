@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Weapons/Regular/Weapon_Regular.gd" type="Script" id=1]
+[ext_resource path="res://Weapons/Regular/Weapon_Stats.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Projectiles/Projectile.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sprites/icon.png" type="Texture" id=4]
+
+[node name="WeaponRegular" type="Node2D"]
+rotation = 1.5708
+script = ExtResource( 1 )
+
+[node name="FireRate" type="Timer" parent="."]
+one_shot = true
+
+[node name="WeaponStats" parent="." instance=ExtResource( 2 )]
+fire_rate = 1.0
+projectile = ExtResource( 3 )
+
+[node name="CastPoint" type="Position2D" parent="."]
+position = Vector2( -16, 0 )
+rotation = -1.5708
+
+[node name="Sprite" type="Sprite" parent="CastPoint"]
+scale = Vector2( 0.125, 0.125 )
+texture = ExtResource( 4 )
+[connection signal="timeout" from="FireRate" to="." method="_on_Fire_Rate_timeout"]

@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://HUD/Banner_UI.gd" type="Script" id=1]
+[ext_resource path="res://Fonts/sbh_regular.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Animations/Text Animation/Text_Flash.tres" type="Animation" id=3]
+[ext_resource path="res://Animations/Text Animation/Text_Percentual.tres" type="Animation" id=4]
+[ext_resource path="res://Animations/Text Animation/Text_Regular.tres" type="Animation" id=5]
+
+[node name="BannerUI" type="MarginContainer"]
+margin_right = 223.0
+margin_bottom = 14.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+text_type = [ ExtResource( 5 ), ExtResource( 3 ), ExtResource( 4 ) ]
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 223.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextAnimation" type="AnimationPlayer" parent="CenterContainer"]
+anims/Flash = ExtResource( 3 )
+anims/Percentual = ExtResource( 4 )
+anims/Regular = ExtResource( 5 )
+
+[node name="Message" type="Label" parent="CenterContainer"]
+margin_left = 111.0
+margin_top = 1.0
+margin_right = 111.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

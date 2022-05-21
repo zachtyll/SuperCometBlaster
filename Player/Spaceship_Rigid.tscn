@@ -1,0 +1,114 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Player/Spaceship_Rigid.gd" type="Script" id=1]
+[ext_resource path="res://Shaders/Colourize.tres" type="Material" id=2]
+[ext_resource path="res://Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Hitboxes and Hurtboxes/Hurtbox.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Sprites/BlueShipMonoChromatic.png" type="Texture" id=5]
+[ext_resource path="res://Player/PlayerStats.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Weapons/Regular/Weapon_Regular.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Player/Shield.gd" type="Script" id=8]
+[ext_resource path="res://Stats.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Sprites/Sprite Sheets/BlueShield.png" type="Texture" id=10]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 16.0
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 10 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 10 )
+region = Rect2( 0, 32, 32, 32 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="SpaceshipRigid" type="KinematicBody2D"]
+script = ExtResource( 1 )
+rotation_speed = 20.0
+
+[node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 2 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 4 )]
+visible = false
+collision_layer = 4
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource( 2 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 3 )]
+visible = false
+collision_mask = 9
+damage = 3
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource( 3 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="NetworkTickRate" type="Timer" parent="."]
+wait_time = 0.003
+autostart = true
+
+[node name="WeaponRegular" parent="." instance=ExtResource( 7 )]
+visible = false
+
+[node name="WeaponStats" parent="WeaponRegular" index="1"]
+fire_rate = 0.5
+
+[node name="PlayerStats" parent="." instance=ExtResource( 6 )]
+max_health = 3
+
+[node name="Shield" type="Node2D" parent="."]
+script = ExtResource( 8 )
+
+[node name="Hurtbox" parent="Shield" instance=ExtResource( 4 )]
+visible = false
+collision_layer = 16
+
+[node name="CollisionShape2D" parent="Shield/Hurtbox" index="0"]
+shape = SubResource( 4 )
+
+[node name="Stats" parent="Shield" instance=ExtResource( 9 )]
+max_health = 10
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Shield"]
+material = ExtResource( 2 )
+frames = SubResource( 7 )
+frame = 1
+playing = true
+[connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
+[connection signal="timeout" from="NetworkTickRate" to="." method="_on_Network_Tick_Rate_timeout"]
+[connection signal="no_health" from="PlayerStats" to="." method="_on_PlayerStats_no_health"]
+[connection signal="area_entered" from="Shield/Hurtbox" to="Shield" method="_on_Hurtbox_area_entered"]
+[connection signal="health_changed" from="Shield/Stats" to="Shield" method="_on_Stats_health_changed"]
+[connection signal="no_health" from="Shield/Stats" to="Shield" method="_on_Stats_no_health"]
+
+[editable path="Hurtbox"]
+
+[editable path="Hitbox"]
+
+[editable path="WeaponRegular"]
+
+[editable path="Shield/Hurtbox"]

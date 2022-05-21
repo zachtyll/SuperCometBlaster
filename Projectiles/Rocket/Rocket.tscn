@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Sprites/BlueBullet.png" type="Texture" id=2]
+[ext_resource path="res://Projectiles/Rocket/Rocket.gd" type="Script" id=3]
+[ext_resource path="res://Areas of Effect/Explosion/Explosion.tscn" type="PackedScene" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 4.0
+
+[node name="Rocket" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource( 3 )
+explosion = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 0, 0, 1 )
+texture = ExtResource( 2 )
+
+[node name="Hitbox" parent="." instance=ExtResource( 1 )]
+collision_layer = 1
+collision_mask = 13
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource( 2 )
+
+[node name="Lifetime" type="Timer" parent="."]
+one_shot = true
+
+[node name="NetworkTickRate" type="Timer" parent="."]
+wait_time = 0.03
+autostart = true
+
+[node name="Tween" type="Tween" parent="."]
+
+[editable path="Hitbox"]

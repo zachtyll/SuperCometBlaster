@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Fonts/sbh_regular.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Player/Player_Controller.gd" type="Script" id=2]
+[ext_resource path="res://Player/Spaceship_Rigid.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sprites/BlueBullet.png" type="Texture" id=5]
+
+[node name="PlayerController" type="Node2D"]
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SpaceshipRigid" parent="." instance=ExtResource( 3 )]
+
+[node name="Label" type="Label" parent="SpaceshipRigid"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+custom_fonts/font = ExtResource( 1 )
+text = "PLAYER 1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="sprite" type="Sprite" parent="."]
+texture = ExtResource( 5 )
+[connection signal="pawn_death" from="SpaceshipRigid" to="." method="_on_Spaceship_Rigid_pawn_death"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
