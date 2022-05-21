@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://Player/Spaceship_Rigid.gd" type="Script" id=1]
+[ext_resource path="res://Player/Spaceship.gd" type="Script" id=1]
 [ext_resource path="res://Shaders/Colourize.tres" type="Material" id=2]
 [ext_resource path="res://Hitboxes and Hurtboxes/Hitbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Hitboxes and Hurtboxes/Hurtbox.tscn" type="PackedScene" id=4]

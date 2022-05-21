@@ -34,10 +34,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Hitboxes and Hurtboxes/Hurtbox.gd"
 }, {
-"base": "KinematicBody2D",
+"base": "Reference",
 "class": "Pawn",
 "language": "GDScript",
-"path": "res://Player/Spaceship_Rigid.gd"
+"path": "res://Player/Spaceship.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Projectile",
