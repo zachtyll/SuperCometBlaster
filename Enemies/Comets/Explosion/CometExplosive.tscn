@@ -52,7 +52,7 @@ max_health = 3
 
 [node name="TickRate" type="Timer" parent="."]
 process_mode = 0
-wait_time = 0.03
+wait_time = 0.05
 autostart = true
 
 [node name="Tween" type="Tween" parent="."]
