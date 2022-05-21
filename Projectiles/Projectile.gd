@@ -10,7 +10,7 @@ var impulse := Vector2.ZERO
 onready var lifetime : Timer = $Lifetime as Timer
 onready var tween := $Tween
 onready var screen_size : Vector2 = get_viewport_rect().size as Vector2
-onready var source := null
+onready var source = null
 
 # warning-ignore:unused_signal
 signal spawn
