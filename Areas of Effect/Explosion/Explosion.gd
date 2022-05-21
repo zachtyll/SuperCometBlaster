@@ -5,7 +5,7 @@ extends Node2D
 # Scoring
 export var score := 0
 
-var effect := null
+var effect = null
 var within_area := []
 
 signal spawn

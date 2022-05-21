@@ -83,9 +83,9 @@ func _process(delta):
 			seek_target()
 		CHASE:
 			sprite.play("Chase")
-			var target = seek_zone.target
-			if target and is_instance_valid(target):
-				var dest_vector = target.get_global_transform().origin - get_global_transform().origin
+			var new_target = seek_zone.target
+			if new_target and is_instance_valid(new_target):
+				var dest_vector = new_target.get_global_transform().origin - get_global_transform().origin
 				velocity = velocity.move_toward(dest_vector , delta * 100)
 				rotation = velocity.angle()
 			seek_target()

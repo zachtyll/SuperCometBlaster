@@ -61,6 +61,7 @@ position = Vector2( 490, 240 )
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
 script = ExtResource( 4 )
+
 [connection signal="update_objective_completed" from="ObjectiveManager" to="LevelManager" method="_on_Objective_Manager_update_objective_completed"]
 
 [editable path="HUD"]

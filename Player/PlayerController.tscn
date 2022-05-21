@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Fonts/sbh_regular.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Player/Player_Controller.gd" type="Script" id=2]
-[ext_resource path="res://Player/Spaceship_Rigid.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Player/Spaceship.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sprites/BlueBullet.png" type="Texture" id=5]
 
 [node name="PlayerController" type="Node2D"]

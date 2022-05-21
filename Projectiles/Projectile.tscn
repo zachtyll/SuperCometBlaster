@@ -22,9 +22,9 @@ shape = SubResource( 1 )
 texture = ExtResource( 2 )
 
 [node name="Hitbox" parent="." instance=ExtResource( 1 )]
-input_pickable = false
 collision_layer = 1
 collision_mask = 15
+input_pickable = false
 damage = 1
 knockback = 10
 
@@ -35,10 +35,11 @@ shape = SubResource( 2 )
 one_shot = true
 
 [node name="NetworkTickRate" type="Timer" parent="."]
-wait_time = 0.03
+wait_time = 0.05
 autostart = true
 
 [node name="Tween" type="Tween" parent="."]
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_Hitbox_area_entered"]
 [connection signal="timeout" from="Lifetime" to="." method="_on_Lifetime_timeout"]
 [connection signal="timeout" from="NetworkTickRate" to="." method="_on_network_tick"]

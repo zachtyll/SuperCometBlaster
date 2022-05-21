@@ -40,8 +40,8 @@ func _on_Objective_Manager_update_objective_completed() -> void:
 		increment_level()
 
 
-func _input(_ev: InputEvent) -> void:
-	if is_network_master():
-		if Input.is_action_pressed("new_level"):
-			increment_level()
-			print("increment_level to: " + str(get_level()))
+#func _input(_ev: InputEvent) -> void:
+#	if is_network_master():
+#		if Input.is_action_pressed("new_level"):
+#			increment_level()
+#			print("increment_level to: " + str(get_level()))
