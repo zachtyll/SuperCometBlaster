@@ -1,5 +1,9 @@
 extends Node
 
+
+const world_scene := preload("res://World/World.tscn")
+const player_scene = preload("res://Player/PlayerController.tscn")
+
 # Default game server port. Can be any number between 1024 and 49151.
 # Not on the list of registered or common ports as of November 2020:
 # https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers
@@ -7,6 +11,7 @@ const DEFAULT_PORT := 10567
 
 # Max number of players.
 const MAX_PEERS := 4
+
 
 var peer = null
 
@@ -92,14 +97,8 @@ remotesync func leave_game():
 remote func pre_start_game(spawn_points : Dictionary):
 	# Change scene.
 # warning-ignore:unsafe_method_access
-	var world = load("res://World/World.tscn").instance()
+	var world = world_scene.instance()
 	get_tree().get_root().add_child(world)
-
-	# NOTE : Quick workaround for singleplayer compatability.
-#	if get_tree().get_root().get_node("LobbyMenu"):
-#		(get_tree().get_root().get_node("LobbyMenu") as Control).hide()
-
-	var player_scene = load("res://Player/PlayerController.tscn")
 
 	# Spawn players
 	for p_id in spawn_points:

@@ -8,7 +8,7 @@
 [ext_resource path="res://Player/PlayerStats.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Weapons/Regular/Weapon_Regular.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Player/Shield.gd" type="Script" id=8]
-[ext_resource path="res://Stats.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Stats/Stats.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sprites/Sprite Sheets/BlueShield.png" type="Texture" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
