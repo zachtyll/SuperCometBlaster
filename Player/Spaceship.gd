@@ -4,16 +4,14 @@ extends KinematicBody2D
 
 const ACCELERATION := 200
 
-export (float) var rotation_speed := 200.0
-export (float) var engine_thrust := 100.0
+const ROTATION_DAMPING := 20
+const MAX_THRUST := 10
 
-#puppet var puppet_position setget puppet_position_set
-#puppet var puppet_rotation setget puppet_rotation_set
 
-var thrust := Vector2.ZERO
-var rotation_dir := 0 setget set_rotation_dir
-var thrust_dir := 0 setget set_thrust_dir
-
+var engine_power := 1
+var thrust := 0
+var rotation_dir := 0 
+var thrust_dir := 0
 var velocity := Vector2.ZERO
 
 onready var weapon := $WeaponRegular
@@ -27,38 +25,34 @@ onready var screen_size := get_viewport_rect().size
 signal pawn_death
 
 
-func set_rotation_dir(value) -> void:
-	rotation_dir = value
-
-
-func set_thrust_dir(value) -> void:
-	thrust_dir = value
-
-
-master func call_steer(direction : int) -> void:
-	rotation_dir = direction
-
-
-master func call_thrust(direction : int) -> void:
-	thrust_dir = direction
-
-
-func _network_process(_input: Dictionary) -> void:
+func _get_local_input() -> Dictionary:
+	var input_rotation := Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	var input_thrust := -Input.get_action_strength("ui_up")
 	
-	rotation += rotation_dir / rotation_speed
-
-
-	thrust = thrust_dir * Vector2(0, 0.1)
+	var shooting := Input.is_action_pressed("shoot")
 	
-#	thrust.move_toward(
-#		input.get("input_vector", Vector2.ZERO).y * Vector2(0, engine_thrust),
-#		engine_thrust, ACCELERATION)
-#	)
+	
+	var input := {}
+	if not input_rotation == 0 or not input_thrust == 0:
+		input["input_vector"] = Vector2(input_rotation, input_thrust)
+		input["shooting"] = shooting
+	
+	return input
+
+
+
+func _network_process(input: Dictionary) -> void:
+	
+	thrust_dir = input.get("input_vector", Vector2.ZERO).y
+	rotation_dir = input.get("input_vector", Vector2.ZERO).x
+	
+	rotation += rotation_dir / float(ROTATION_DAMPING)
+	thrust = int(clamp(thrust_dir * engine_power, -MAX_THRUST, 0))
 
 	global_position.x = wrapf(global_position.x, 0, screen_size.x)
 	global_position.y = wrapf(global_position.y, 0, screen_size.y)
 
-	velocity += thrust.rotated(rotation)
+	velocity += Vector2(0, thrust).rotated(rotation)
 	velocity = move_and_slide(velocity)
 
 

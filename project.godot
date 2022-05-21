@@ -149,6 +149,10 @@ sync_debug={
 2d_physics/layer_4="EnemyHurtbox"
 2d_physics/layer_5="ProjectileHurtbox"
 
+[network]
+
+rollback/classes/message_serializer="res://SCBMessageSerializer.gd"
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
