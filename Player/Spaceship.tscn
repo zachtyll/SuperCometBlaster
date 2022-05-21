@@ -68,7 +68,7 @@ shape = SubResource( 3 )
 [node name="Tween" type="Tween" parent="."]
 
 [node name="NetworkTickRate" type="Timer" parent="."]
-wait_time = 0.003
+wait_time = 0.05
 autostart = true
 
 [node name="WeaponRegular" parent="." instance=ExtResource( 7 )]
@@ -96,8 +96,8 @@ max_health = 10
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Shield"]
 material = ExtResource( 2 )
 frames = SubResource( 7 )
-frame = 1
 playing = true
+
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_Hurtbox_area_entered"]
 [connection signal="timeout" from="NetworkTickRate" to="." method="_on_Network_Tick_Rate_timeout"]
 [connection signal="no_health" from="PlayerStats" to="." method="_on_PlayerStats_no_health"]
@@ -106,9 +106,6 @@ playing = true
 [connection signal="no_health" from="Shield/Stats" to="Shield" method="_on_Stats_no_health"]
 
 [editable path="Hurtbox"]
-
 [editable path="Hitbox"]
-
 [editable path="WeaponRegular"]
-
 [editable path="Shield/Hurtbox"]

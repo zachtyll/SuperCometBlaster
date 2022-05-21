@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Hitboxes and Hurtboxes/Hurtbox.gd"
 }, {
-"base": "Reference",
+"base": "KinematicBody2D",
 "class": "Pawn",
 "language": "GDScript",
 "path": "res://Player/Spaceship.gd"
