@@ -41,7 +41,9 @@ signal game_error(what)
 func _player_connected(id : int):
 	# Registration of a client beings here, tell the connected player that we are here.
 	rpc_id(id, "register_player", player_name)
-	SyncManager.add_peer(id)
+	# Just for good measure...
+	if get_tree().is_network_server():
+		SyncManager.add_peer(id)
 
 
 # Callback from SceneTree.
@@ -52,7 +54,8 @@ func _player_disconnected(id : int):
 			end_game()
 	else: # Game is not in progress.
 		# Unregister this player.
-		SyncManager.remove_peer(id)
+		if get_tree().is_network_server():
+			SyncManager.remove_peer(id)
 		unregister_player(id)
 
 
@@ -96,6 +99,7 @@ remotesync func leave_game():
 	peer.close_connection()
 
 
+# Could be remotesync
 remote func pre_start_game(spawn_points : Dictionary):
 	var world = world_scene.instance()
 	get_tree().get_root().add_child(world)
@@ -151,7 +155,11 @@ remote func pre_start_game(spawn_points : Dictionary):
 		post_start_game()
 
 
+# Could be remotesync
 remote func post_start_game():
+	if get_tree().is_network_server():
+		yield(get_tree().create_timer(2.0), "timeout")
+		SyncManager.start()
 	get_tree().set_pause(false) # Unpause and unleash the game!
 
 
@@ -213,6 +221,10 @@ func end_game():
 
 	emit_signal("game_ended")
 	players.clear()
+	
+	# Reset SyncManager
+	SyncManager.stop()
+	SyncManager.clear_peers()
 
 
 # TODO: Use semaphores to synchronize this stuff.
@@ -271,10 +283,13 @@ func networked_object_name_index_set(new_value : String):
 
 
 func _ready():
-	var _error_network_peer_connected = get_tree().connect("network_peer_connected", self, "_player_connected")
-	var _error_network_peer_disconnected = get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
-	var _error_connected_to_server = get_tree().connect("connected_to_server", self, "_connected_ok")
-	var _error_connection_failed = get_tree().connect("connection_failed", self, "_connected_fail")
-	var _error_server_disconnected = get_tree().connect("server_disconnected", self, "_server_disconnected")
+	var _error_network_peer_connected := get_tree().connect("network_peer_connected", self, "_player_connected")
+	var _error_network_peer_disconnected := get_tree().connect("network_peer_disconnected", self,"_player_disconnected")
+	var _error_connected_to_server := get_tree().connect("connected_to_server", self, "_connected_ok")
+	var _error_connection_failed := get_tree().connect("connection_failed", self, "_connected_fail")
+	var _error_server_disconnected := get_tree().connect("server_disconnected", self, "_server_disconnected")
 #	var _error_node_added = get_tree().connect("node_added", self, "_node_added")
 #	var _error_node_removed = get_tree().connect("node_removed", self, "_node_removed")
+
+	var _error_sync_started := SyncManager.connect("sync_started", self, "_on_SyncManager_sync_started")
+	
