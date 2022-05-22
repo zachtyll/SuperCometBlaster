@@ -1,16 +1,17 @@
 class_name Pawn
-extends KinematicBody2D
+extends SGKinematicBody2D
 # Spaceship controlled by Players
 
+const FIXED_POINT_NUM := 65536
 const ACCELERATION := 200
-const ROTATION_SPEED := 3
-const MAX_THRUST := 10
+const ROTATION_SPEED := FIXED_POINT_NUM*1
+const MAX_THRUST := FIXED_POINT_NUM*2
 
-var engine_power := 3
+var engine_power := FIXED_POINT_NUM*1
 var thrust := 0
 var rotation_dir := 0 
 var thrust_dir := 0
-var velocity := Vector2.ZERO
+var velocity := SGFixedVector2.new()
 
 onready var weapon := $WeaponRegular
 onready var shield := $Shield
@@ -40,29 +41,31 @@ func _network_process(input: Dictionary) -> void:
 	thrust_dir = input.get("input_vector", Vector2.ZERO).y
 	rotation_dir = input.get("input_vector", Vector2.ZERO).x
 	
-	rotation_degrees += int(round(rotation_dir * ROTATION_SPEED))
-	thrust = int(clamp(thrust_dir * engine_power, -MAX_THRUST, 0))
+	fixed_rotation += SGFixed.from_float(rotation_dir * ROTATION_SPEED)
+	thrust = SGFixed.from_float(clamp(thrust_dir * engine_power, -MAX_THRUST, 0))
 	
 	# Screen wrapping
-	global_position.x = wrapf(global_position.x, 0, screen_size.x)
-	global_position.y = wrapf(global_position.y, 0, screen_size.y)
+#	fixed_position_x = SGFixed.from_float(wrapf(fixed_position_x, 0, screen_size.x*FIXED_POINT_NUM))
+#	fixed_position_y = SGFixed.from_float(wrapf(fixed_position_y, 0, screen_size.y*FIXED_POINT_NUM))
 
-	velocity += Vector2(0, thrust).rotated(rotation)
-	velocity = move_and_slide(velocity)
-
+	velocity.y = thrust
+#	.rotated(fixed_rotation)
+	move_and_slide(velocity)
 
 
 func _save_state() -> Dictionary:
 	return {
-#		position = position,
-		rotation_degrees = round(rotation_degrees),
+		fixed_position = fixed_position,
+		fixed_rotation = fixed_rotation,
+		thrust = thrust,
 		velocity = velocity,
 	}
 
 
 func _load_state(state: Dictionary) -> void:
-#	position = state["position"]
-	rotation_degrees = state["rotation_degrees"]
+	fixed_position = state["fixed_position"]
+	fixed_rotation = state["fixed_rotation"]
+	thrust = state["thrust"]
 	velocity = state["velocity"]
 
 
@@ -102,7 +105,7 @@ func _on_Hurtbox_area_entered(area: Area2D) -> void:
 	else:
 #		print(str(hitbox.get_parent().name) + " is attacking " + str(self.name))
 		rpc("take_damage", hitbox.damage)
-		velocity += Vector2(0, hitbox.knockback).rotated(get_angle_to(hitbox.position))
+		velocity.iadd(Vector2(0, hitbox.knockback).rotated(get_angle_to(hitbox.position)))
 
 
 # TODO : Remotesync? Needed for synced health_ui?
@@ -127,7 +130,7 @@ remotesync func pawn_death() -> void:
 remotesync func pawn_respawn() -> void:
 	stats.health = stats.max_health
 	shield.stats.health = shield.stats.max_health
-	velocity = Vector2.ZERO
+	velocity = SGFixedVector2.ZERO
 	thrust_dir = 0
 	self.position = get_parent().global_position
 	self.show()
