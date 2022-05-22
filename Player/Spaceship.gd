@@ -60,11 +60,13 @@ func _network_process(input: Dictionary) -> void:
 func _save_state() -> Dictionary:
 	return {
 		position = position,
+		rotation = rotation,
 	}
 
 
 func _load_state(state: Dictionary) -> void:
 	position = state["position"]
+	rotation = state["rotation"]
 
 
 #func _physics_process(delta) -> void:
