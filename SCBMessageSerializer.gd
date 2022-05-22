@@ -2,8 +2,8 @@ extends "res://addons/godot-rollback-netcode/MessageSerializer.gd"
 
 
 const input_path_mapping := {
-	"player_1": 1,
-	"player_2": 2,
+	"/root/World/Players/Player1/Spaceship": 1,
+	"/root/World/Players/Player2/Spaceship": 2,
 }
 
 enum HeaderFlags {
@@ -39,8 +39,8 @@ func serialize_input(all_input: Dictionary) -> PoolByteArray:
 		
 		if input.has("input_vector"):
 			var input_vector: Vector2 = input["input_vector"]
-			buffer.put_int(input_vector.x)
-			buffer.put_int(input_vector.y)
+			buffer.put_float(input_vector.x)
+			buffer.put_float(input_vector.y)
 
 	buffer.resize(buffer.get_position())
 	return buffer.data_array
@@ -67,7 +67,7 @@ func unserialize_input(serialized: PoolByteArray) -> Dictionary:
 	
 	var header = buffer.get_u8()
 	if header and HeaderFlags.HAS_INPUT_VECTOR:
-		input["input_vector"] = Vector2(buffer.get_int(), buffer.get_int())
+		input["input_vector"] = Vector2(buffer.get_float(), buffer.get_float())
 	
 	all_input[path] = input
 	return all_input
