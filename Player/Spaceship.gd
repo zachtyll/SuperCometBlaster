@@ -47,9 +47,15 @@ func _network_process(input: Dictionary) -> void:
 	velocity.iadd(SGFixed.vector2(0, thrust).rotated(fixed_rotation))
 	
 	# Screen wrapping
-	var wrap_vector := SGFixedVector2.new()
-	wrap_vector.x = SGFixed.to_int(posmod(fixed_position.x, screen_size.x))
-	wrap_vector.y = SGFixed.to_int(posmod(fixed_position.y, screen_size.y))
+	if fixed_position.x > screen_size.x:
+		fixed_position.x = 0
+	if fixed_position.x < 0:
+		fixed_position.x = screen_size.x
+	if fixed_position.y > screen_size.y:
+		fixed_position.y = 0
+	if fixed_position.y < 0:
+		fixed_position.y = screen_size.y
+	
 
 	rotate_and_slide(SGFixed.mul(rotation_dir, ROTATION_SPEED))
 
