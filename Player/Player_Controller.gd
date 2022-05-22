@@ -3,6 +3,7 @@ extends Node2D
 onready var pawn := $Spaceship
 
 var player_name: String = "" setget set_player_name
+var spawn_point: Position2D
 
 signal player_death
 
@@ -45,3 +46,8 @@ func _on_Spaceship_Rigid_pawn_death():
 	set_process_input(false)
 	$Timer.start()
 
+
+func _ready():
+	pawn.fixed_position = SGFixed.from_float_vector2(spawn_point.global_position)
+	print(SGFixed.to_int(SGFixed.from_float_vector2(spawn_point.global_position).x))
+	pawn.fixed_position.add(SGFixed.from_float_vector2(spawn_point.global_position))

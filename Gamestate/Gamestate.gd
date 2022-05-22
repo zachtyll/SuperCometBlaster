@@ -105,12 +105,12 @@ remote func pre_start_game(spawn_points : Dictionary):
 
 	# Spawn players
 	for p_id in spawn_points:
-		var spawn_pos = world.get_node("SpawnPoints/" + str(spawn_points[p_id])).global_position
+		var spawn_point = world.get_node("SpawnPoints/" + str(spawn_points[p_id]))
 		var player = player_scene.instance()
 
 		player.set_name("Player" + str(Gamestate.networked_object_name_index))
 		player.set_network_master(p_id) #set unique id as master.
-		player.global_position = spawn_pos
+		player.spawn_point = spawn_point
 
 		# Use unique ID as node name.
 		if p_id == get_tree().get_network_unique_id():

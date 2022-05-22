@@ -4,20 +4,22 @@ extends SGKinematicBody2D
 
 const FIXED_POINT_NUM := 65536
 const ACCELERATION := 200
-const ROTATION_SPEED := FIXED_POINT_NUM*1
-const MAX_THRUST := FIXED_POINT_NUM*2
+const ROTATION_SPEED := FIXED_POINT_NUM*2000
+const MAX_THRUST := FIXED_POINT_NUM*1000
 
-var engine_power := FIXED_POINT_NUM*1
+var engine_power := FIXED_POINT_NUM*100
 var thrust := 0
 var rotation_dir := 0 
 var thrust_dir := 0
 var velocity := SGFixedVector2.new()
 
+var origin := SGFixedVector2.new()
+
 onready var weapon := $WeaponRegular
 onready var shield := $Shield
 onready var stats := $PlayerStats
 onready var tween := $Tween
-onready var screen_size := get_viewport_rect().size
+onready var screen_size := get_viewport_rect().size * FIXED_POINT_NUM
 
 # Signals to:
 #	- Objective Manager
@@ -41,16 +43,17 @@ func _network_process(input: Dictionary) -> void:
 	thrust_dir = input.get("input_vector", Vector2.ZERO).y
 	rotation_dir = input.get("input_vector", Vector2.ZERO).x
 	
-	fixed_rotation += SGFixed.from_float(rotation_dir * ROTATION_SPEED)
-	thrust = SGFixed.from_float(clamp(thrust_dir * engine_power, -MAX_THRUST, 0))
+	thrust = SGFixed.mul(thrust_dir, engine_power)
+	velocity.iadd(SGFixed.vector2(0, thrust).rotated(fixed_rotation))
 	
 	# Screen wrapping
-#	fixed_position_x = SGFixed.from_float(wrapf(fixed_position_x, 0, screen_size.x*FIXED_POINT_NUM))
-#	fixed_position_y = SGFixed.from_float(wrapf(fixed_position_y, 0, screen_size.y*FIXED_POINT_NUM))
+	var wrap_vector := SGFixedVector2.new()
+	wrap_vector.x = SGFixed.to_int(posmod(fixed_position.x, screen_size.x))
+	wrap_vector.y = SGFixed.to_int(posmod(fixed_position.y, screen_size.y))
 
-	velocity.y = thrust
-#	.rotated(fixed_rotation)
-	move_and_slide(velocity)
+	rotate_and_slide(SGFixed.mul(rotation_dir, ROTATION_SPEED))
+
+	velocity = move_and_slide(velocity)
 
 
 func _save_state() -> Dictionary:
