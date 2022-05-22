@@ -82,6 +82,7 @@ config/icon="res://Sprites/icon.png"
 
 Gamestate="*res://Gamestate/Gamestate.gd"
 SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
+SyncDebugger="*res://addons/godot-rollback-netcode/SyncDebugger.gd"
 
 [debug]
 
