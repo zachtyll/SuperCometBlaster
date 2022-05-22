@@ -123,12 +123,12 @@ remote func pre_start_game(spawn_points : Dictionary):
 		world.get_node("Players").add_child(player)
 
 		# Setup the Health_UI and Banner_UI
-		var health_ui = world.get_node("HUD/HealthUI/" + str(spawn_points[p_id]))
-		player.pawn.stats.connect("health_changed", health_ui, "set_health")
-		player.pawn.stats.set_health(player.pawn.stats.health)
-		health_ui.show()
-		var banner_ui = world.get_node("HUD/CenterBanner/Center/BannerUI")
-		player.connect("player_death", banner_ui, "_on_player_death")
+#		var health_ui = world.get_node("HUD/HealthUI/" + str(spawn_points[p_id]))
+#		player.pawn.stats.connect("health_changed", health_ui, "set_health")
+#		player.pawn.stats.set_health(player.pawn.stats.health)
+#		health_ui.show()
+#		var banner_ui = world.get_node("HUD/CenterBanner/Center/BannerUI")
+#		player.connect("player_death", banner_ui, "_on_player_death")
 
 #	var _error_on_update_level_begin = world.get_node("LevelManager").connect(
 #		"update_level_begin",

@@ -30,60 +30,54 @@ func _get_local_input() -> Dictionary:
 	var input_rotation := Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	var input_thrust := -Input.get_action_strength("ui_up")
 	var shooting := Input.is_action_pressed("shoot")
-	
+
 	var input := {}
 	if not input_rotation == 0 or not input_thrust == 0:
 		input["input_vector"] = Vector2(input_rotation, input_thrust)
 		input["shooting"] = shooting
-	
+
 	return input
 
 
 func _network_process(input: Dictionary) -> void:
 	thrust_dir = input.get("input_vector", Vector2.ZERO).y
 	rotation_dir = input.get("input_vector", Vector2.ZERO).x
-	
-#	thrust = SGFixed.mul(thrust_dir, engine_power)
-#	velocity.iadd(SGFixed.vector2(0, thrust).rotated(fixed_rotation))
-#
-#	# Screen wrapping
-#	if fixed_position.x > screen_size.x:
-#		fixed_position.x = 0
-#	if fixed_position.x < 0:
-## warning-ignore:narrowing_conversion
-#		fixed_position.x = screen_size.x
-#	if fixed_position.y > screen_size.y:
-#		fixed_position.y = 0
-#	if fixed_position.y < 0:
-## warning-ignore:narrowing_conversion
-#		fixed_position.y = screen_size.y
-#
-## warning-ignore:return_value_discarded
-#	rotate_and_slide(SGFixed.mul(rotation_dir, ROTATION_SPEED))
-#	velocity = move_and_slide(velocity)
+
+	thrust = SGFixed.mul(thrust_dir, engine_power)
+	velocity.iadd(SGFixed.vector2(0, thrust).rotated(fixed_rotation))
+
+	# Screen wrapping
+	if fixed_position.x > screen_size.x:
+		fixed_position.x = 0
+	if fixed_position.x < 0:
+# warning-ignore:narrowing_conversion
+		fixed_position.x = screen_size.x
+	if fixed_position.y > screen_size.y:
+		fixed_position.y = 0
+	if fixed_position.y < 0:
+# warning-ignore:narrowing_conversion
+		fixed_position.y = screen_size.y
+
+# warning-ignore:return_value_discarded
+	rotate_and_slide(SGFixed.mul(rotation_dir, ROTATION_SPEED))
+	velocity = move_and_slide(velocity)
 
 
 func _save_state() -> Dictionary:
 	return {
 		fixed_position = fixed_position,
 		fixed_rotation = fixed_rotation,
-		thrust = thrust,
-		velocity = velocity,
+		velocity = velocity
 	}
 
 
 func _load_state(state: Dictionary) -> void:
 	fixed_position = state["fixed_position"]
 	fixed_rotation = state["fixed_rotation"]
-	thrust = state["thrust"]
 	velocity = state["velocity"]
 
 
 func _on_Hurtbox_area_entered(area: Area2D) -> void:
-	print("OCUH!")
-	if not is_network_master():
-		return
-
 	# Filter for hitboxes.
 	var hitbox := area as Hitbox
 	if not hitbox:

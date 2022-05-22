@@ -49,5 +49,4 @@ func _on_Spaceship_Rigid_pawn_death():
 
 func _ready():
 	pawn.fixed_position = SGFixed.from_float_vector2(spawn_point.global_position)
-	print(SGFixed.to_int(SGFixed.from_float_vector2(spawn_point.global_position).x))
-	pawn.fixed_position.add(SGFixed.from_float_vector2(spawn_point.global_position))
+#	pawn.fixed_position.add(SGFixed.from_float_vector2(spawn_point.global_position))

@@ -11,7 +11,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Spaceship" parent="." groups=["network_sync"] instance=ExtResource( 3 )]
+[node name="Spaceship" parent="." instance=ExtResource( 3 )]
 
 [node name="Label" type="Label" parent="Spaceship"]
 anchor_left = 0.5
