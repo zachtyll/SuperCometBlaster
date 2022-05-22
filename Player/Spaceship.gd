@@ -40,7 +40,6 @@ func _get_local_input() -> Dictionary:
 	return input
 
 
-
 func _network_process(input: Dictionary) -> void:
 	
 	thrust_dir = input.get("input_vector", Vector2.ZERO).y
@@ -106,21 +105,11 @@ func _on_Hurtbox_area_entered(area: Area2D) -> void:
 #		print(str(hitbox.get_parent().name) + " is attacking " + str(self.name))
 		rpc("take_damage", hitbox.damage)
 		velocity += Vector2(0, hitbox.knockback).rotated(get_angle_to(hitbox.position))
-#		self.apply_central_impulse()
 
 
 # TODO : Remotesync? Needed for synced health_ui?
 remotesync func take_damage(damage : int) -> void:
 	stats.health -= damage
-
-
-#	Sets the global position of the network master
-#	to the puppet position in remotes via rset().
-#	Activates setter which begins tweening.
-#func _on_Network_Tick_Rate_timeout() -> void:
-#	if is_network_master() and is_instance_valid(self):
-#		rset_unreliable("puppet_position", global_position)
-#		rset_unreliable("puppet_rotation", rotation)
 
 
 func _on_PlayerStats_no_health() -> void:
@@ -144,9 +133,3 @@ remotesync func pawn_respawn() -> void:
 	thrust_dir = 0
 	self.position = get_parent().global_position
 	self.show()
-
-
-#func _ready() -> void:
-#	if is_network_master() and is_instance_valid(self):
-#		rset_unreliable("puppet_position", global_position)
-#		rset_unreliable("puppet_rotation", rotation)
