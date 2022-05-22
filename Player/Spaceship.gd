@@ -43,23 +43,24 @@ func _network_process(input: Dictionary) -> void:
 	thrust_dir = input.get("input_vector", Vector2.ZERO).y
 	rotation_dir = input.get("input_vector", Vector2.ZERO).x
 	
-	thrust = SGFixed.mul(thrust_dir, engine_power)
-	velocity.iadd(SGFixed.vector2(0, thrust).rotated(fixed_rotation))
-	
-	# Screen wrapping
-	if fixed_position.x > screen_size.x:
-		fixed_position.x = 0
-	if fixed_position.x < 0:
-		fixed_position.x = screen_size.x
-	if fixed_position.y > screen_size.y:
-		fixed_position.y = 0
-	if fixed_position.y < 0:
-		fixed_position.y = screen_size.y
-	
-
-	rotate_and_slide(SGFixed.mul(rotation_dir, ROTATION_SPEED))
-
-	velocity = move_and_slide(velocity)
+#	thrust = SGFixed.mul(thrust_dir, engine_power)
+#	velocity.iadd(SGFixed.vector2(0, thrust).rotated(fixed_rotation))
+#
+#	# Screen wrapping
+#	if fixed_position.x > screen_size.x:
+#		fixed_position.x = 0
+#	if fixed_position.x < 0:
+## warning-ignore:narrowing_conversion
+#		fixed_position.x = screen_size.x
+#	if fixed_position.y > screen_size.y:
+#		fixed_position.y = 0
+#	if fixed_position.y < 0:
+## warning-ignore:narrowing_conversion
+#		fixed_position.y = screen_size.y
+#
+## warning-ignore:return_value_discarded
+#	rotate_and_slide(SGFixed.mul(rotation_dir, ROTATION_SPEED))
+#	velocity = move_and_slide(velocity)
 
 
 func _save_state() -> Dictionary:
@@ -78,29 +79,8 @@ func _load_state(state: Dictionary) -> void:
 	velocity = state["velocity"]
 
 
-#func _physics_process(delta) -> void:
-#	if is_network_master() and is_instance_valid(self):
-#		thrust = thrust.move_toward(
-#			thrust_dir * Vector2(0, engine_thrust),
-#			delta * ACCELERATION
-#		)
-#
-#		rotation += rotation_dir / rotation_speed
-#
-#		velocity += thrust.rotated(rotation) * delta
-#
-#		global_position.x = wrapf(global_position.x, 0, screen_size.x)
-#		global_position.y = wrapf(global_position.y, 0, screen_size.y)
-#
-#	elif not is_network_master() and is_instance_valid(self):
-#		if puppet_position and puppet_rotation:
-#			global_position = puppet_position
-#			rotation = puppet_rotation
-#
-#	velocity = move_and_slide(velocity)
-
-
 func _on_Hurtbox_area_entered(area: Area2D) -> void:
+	print("OCUH!")
 	if not is_network_master():
 		return
 
